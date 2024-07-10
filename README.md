@@ -4,8 +4,21 @@
 
 ## Description
 
-This GitHub Action installs the SonarQube scanner along with Java in a platform-agnostic way. 
+This GitHub Action installs the SonarQube scanner along with Java in a platform-agnostic way.
 It's designed to help seamlessly integrate SonarQube's static code analysis tools into your CI/CD pipeline.
+
+## Why?
+
+Well, the default sonarqube action ([sonarsource/sonarqube-scan-action](https://github.com/SonarSource/sonarqube-scan-action))
+uses [a Dockerfile image](https://github.com/SonarSource/sonarqube-scan-action/blob/master/action.yml#L8-L9). That is not bad
+in itself, but:
+
+- It's not completely platform agnostic, as it requires a container runtime in the github runner. We are avoiding that in our windows runners.
+- It builds every time you run the action, which we consider particularly wasteful. Also, you'll more often than not will hit the [Docker Hub rate limit](https://docs.docker.com/docker-hub/download-rate-limit/) and your builds will fail.
+
+Is it perfect? Not really. Now you will have to issue the sonar-scanner command yourself, which is a bit of a hassle.
+
+
 
 ## Author
 
@@ -46,6 +59,17 @@ jobs:
     # Add your SonarQube analysis step here
     - name: Run SonarQube Scanner
       run: sonar-scanner
+```
+
+Then you can use the SonarQube scanner in your workflow by running `sonar-scanner` in your project's root directory.
+
+```yaml
+- name: Run SonarQube Scanner begin
+  run: sonar-scanner begin -Dsonar.host.url=${{ secrets.SONARQUBE_URL }} -Dsonar.token=${{ secrets.SONARQUBE_TOKEN }} # etc…
+- name: build
+  run: #run your build and tests and whatnot
+- name: Run SonarQube Scanner end and upload results
+  run: sonar-scanner end
 ```
 
 ## Steps
