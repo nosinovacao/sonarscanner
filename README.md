@@ -55,21 +55,17 @@ jobs:
         installJava: 'true'  # Whether to install Java
         javaDistribution: 'oracle' # Specify the Java distribution
         javaVersion: '22'    # Specify the Java version
-
-    # Add your SonarQube analysis step here
-    - name: Run SonarQube Scanner
-      run: sonar-scanner
 ```
 
 Then you can use the SonarQube scanner in your workflow by running `sonar-scanner` in your project's root directory.
 
 ```yaml
-- name: Run SonarQube Scanner begin
-  run: sonar-scanner begin -Dsonar.host.url=${{ secrets.SONARQUBE_URL }} -Dsonar.token=${{ secrets.SONARQUBE_TOKEN }} # etc…
-- name: build
-  run: #run your build and tests and whatnot
-- name: Run SonarQube Scanner end and upload results
-  run: sonar-scanner end
+    - name: Run SonarQube Scanner begin
+      run: sonar-scanner begin -Dsonar.host.url=${{ secrets.SONARQUBE_URL }} -Dsonar.token=${{ secrets.SONARQUBE_TOKEN }} # etc…
+    - name: build
+      run: #run your build and tests and whatnot
+    - name: Run SonarQube Scanner end and upload results
+      run: sonar-scanner end
 ```
 
 ## Steps
