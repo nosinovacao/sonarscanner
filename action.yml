@@ -28,7 +28,7 @@ runs:
       continue-on-error: false
       id: check-java
       run: |
-        if [ command -v java ]; then
+        if command -v java; then
           echo "Java is installed"
           echo "javaInstalled=true" >> $GITHUB_OUTPUT
         else
