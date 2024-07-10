@@ -17,8 +17,8 @@ It's designed to help seamlessly integrate SonarQube's static code analysis tool
 | ----------------- | ---------------------------------------------------- | -------- | ---------------- |
 | `version`         | The version of the SonarQube scanner to be used      | No       | `6.1.0.4477`     |
 | `installJava`     | Whether to install Java                              | No       | `true`           |
-| `javaDistribution`| The distribution of Java to be used                  | No       | `oracle`         |
-| `javaVersion`     | The version of Java to be used                       | No       | `22`             |
+| `javaDistribution`| The distribution of Java to be used                  | No       | `temurin`         |
+| `javaVersion`     | The version of Java to be used                       | No       | `21`             |
 
 ## Usage
 

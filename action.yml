@@ -17,11 +17,11 @@ inputs:
   javaDistribution:
     description: The distribution of Java to be used
     required: false
-    default: 'oracle'
+    default: 'temurin'
   javaVersion:
     description: The version of Java to be used
     required: false
-    default: '22'
+    default: '21' # Latest LTS version
 
 runs:
   using: composite
