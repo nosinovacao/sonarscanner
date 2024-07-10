@@ -29,8 +29,7 @@ Is it perfect? Not really. Now you will have to issue the sonar-scanner command 
 | Name              | Description                                          | Required | Default          |
 | ----------------- | ---------------------------------------------------- | -------- | ---------------- |
 | `version`         | The version of the SonarQube scanner to be used      | No       | `6.1.0.4477`     |
-| `installJava`     | Whether to install Java                              | No       | `true`           |
-| `javaDistribution`| The distribution of Java to be used                  | No       | `temurin`         |
+| `javaDistribution`| The distribution of Java to be used                  | No       | `temurin`        |
 | `javaVersion`     | The version of Java to be used                       | No       | `21`             |
 
 ## Usage
@@ -49,12 +48,11 @@ jobs:
     - uses: actions/checkout@v2
 
     - name: Install SonarQube scanner
-      uses: nosinovacao/sonarscanner-action@main
+      uses: nosinovacao/sonarscanner-action@v1
       with:
         version: '6.1.0.4477' # Specify the version if needed
-        installJava: 'true'  # Whether to install Java
-        javaDistribution: 'oracle' # Specify the Java distribution
-        javaVersion: '22'    # Specify the Java version
+        javaDistribution: 'temurin' # Specify the Java distribution
+        javaVersion: '21'    # Specify the Java version
 ```
 
 Then you can use the SonarQube scanner in your workflow by running `sonar-scanner` in your project's root directory.

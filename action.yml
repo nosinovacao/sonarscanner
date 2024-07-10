@@ -10,10 +10,6 @@ inputs:
     description: The version of the scanner to be used
     required: false
     default: 6.1.0.4477
-  installJava:
-    description: Whether to install Java
-    required: false
-    default: 'true'
   javaDistribution:
     description: The distribution of Java to be used
     required: false
@@ -27,10 +23,23 @@ runs:
   using: composite
   steps:
 
+    - name: Check if java is installed
+      shell: bash
+      continue-on-error: false
+      id: check-java
+      run: |
+        if [ command -v java ]; then
+          echo "Java is installed"
+          echo "javaInstalled=true" >> $GITHUB_OUTPUT
+        else
+          echo "Java is not installed"
+          echo "javaInstalled=false" >> $GITHUB_OUTPUT
+        fi
+
     # Installs Java if requested by the user
     - name: Set up JDK
       uses: actions/setup-java@99b8673ff64fbf99d8d325f52d9a5bdedb8483e9 # pin @v4.2.1
-      if: ${{ inputs.installJava == 'true' }}
+      if: steps.check-java.outputs.javaInstalled == 'false'
       with:
         distribution: ${{ inputs.javaDistribution }}
         java-version: ${{ inputs.javaVersion }}
