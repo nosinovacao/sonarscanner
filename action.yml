@@ -1,0 +1,43 @@
+name: Install SonarQube scanner
+description: A GitHub Action to install sonarscanner with java, in a platform agnostic way
+author: NOS Inovação
+branding:
+  color: blue
+  icon: search
+
+inputs:
+  version:
+    description: The version of the scanner to be used
+    required: false
+    default: 6.1.0.4477
+  installJava:
+    description: Whether to install Java
+    required: false
+    default: 'true'
+  javaDistribution:
+    description: The distribution of Java to be used
+    required: false
+    default: 'oracle'
+  javaVersion:
+    description: The version of Java to be used
+    required: false
+    default: '22'
+
+runs:
+  using: composite
+  steps:
+
+    # Installs Java if requested by the user
+    - name: Set up JDK
+      uses: actions/setup-java@99b8673ff64fbf99d8d325f52d9a5bdedb8483e9 # pin @v4.2.1
+      if: ${{ inputs.installJava == 'true' }}
+      with:
+        distribution: ${{ inputs.javaDistribution }}
+        java-version: ${{ inputs.javaVersion }}
+
+    - name: Set up SonarQube scanner
+      shell: bash
+      run: |
+        wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-${{ inputs.version }}.zip -O /tmp/sonar-scanner.zip
+        unzip /tmp/sonar-scanner.zip -d /tmp
+        echo "/tmp/sonar-scanner-${{ inputs.version }}/bin" >> $GITHUB_PATH
